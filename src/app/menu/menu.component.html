@@ -1,0 +1,12 @@
+<div class="container" fxLayout="column" fxLayoutGap="10px">
+	<!--like the media objet/media list, with media objects in a list format. fx flex means it will be one piece of content that will be laid out-->
+	<md-list fxFlex>
+		<!--ng for iterates over an array of items, like a for{} loop-->
+		<md-list-item *ngFor="let dish of dishes">
+			<img md-list-avatar src={{dish.image}} alt={{dish.name}}>
+			
+			<h1 md-line>{{dish.name}}</h1>
+			<p md-line><span>{{dish.description}}</span></p>
+		</md-list-item>
+	</md-list>
+</div>

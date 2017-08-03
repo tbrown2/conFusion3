@@ -8,12 +8,14 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { MenuComponent } from './menu/menu.component';
 //decorator - a function / wrapper that modifies javascript classes
 //specify some details about your app module
 @NgModule({
 	//these are the view classes - directives, components and pipes
   declarations: [
-    AppComponent
+    AppComponent,
+    MenuComponent
   ],
   //always import modules you install that you want to use
   imports: [
