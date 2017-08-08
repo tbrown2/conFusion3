@@ -2,10 +2,10 @@
 import { Component, OnInit  } from '@angular/core';
 //improt a class we created called dish
 import { Dish } from '../shared/dish';
-import { DISHES } from '../shared/dishes';
 
 import { DishdetailComponent } from '../dishdetail/dishdetail.component';
 
+import { DishService } from '../services/dish.service';
 
 @Component({
   selector: 'app-menu',
@@ -14,7 +14,7 @@ import { DishdetailComponent } from '../dishdetail/dishdetail.component';
 })
 export class MenuComponent implements OnInit {
 
-	dishes = DISHES;
+	dishes: Dish[];
 
 	selectedDish: Dish;
 
@@ -24,9 +24,11 @@ export class MenuComponent implements OnInit {
 
   
 
- 	constructor() { }
+ 	constructor(private dishService: DishService) { }
 
+//lifecycle method, will be executed by the angular framework when the component is executed
 	ngOnInit() {
+    this.dishes = this.dishService.getDishes();
 
 	}
 

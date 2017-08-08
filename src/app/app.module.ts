@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
+
+import { DishService } from './services/dish.service';
 //decorator - a function / wrapper that modifies javascript classes
 //specify some details about your app module
 @NgModule({
@@ -29,7 +31,9 @@ import { DishdetailComponent } from './dishdetail/dishdetail.component';
     FlexLayoutModule,
   ],
   //all the services that this app will make use of
-  providers: [],
+  providers: [
+    DishService
+  ],
   //root component
   bootstrap: [AppComponent]
 })
