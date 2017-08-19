@@ -12,4 +12,14 @@ export class DishService {
   getDishes(): Dish[] {
   	return DISHES;
   }
+  getDish(id: number): Dish {
+    //filter() returns an array
+    //but since we are taking the first index filter()[0]
+    //=> is a shorthand way of writing function
+    //return a dish type that satisfies
+  	return DISHES.filter((dish) => (dish.id === id))[0]; 
+  }
+  getFeaturedDish(): Dish {
+    return DISHES.filter((dish) => dish.featured)[0];
+  }
 }
