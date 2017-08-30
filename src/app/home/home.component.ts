@@ -23,9 +23,19 @@ export class HomeComponent implements OnInit {
     private leaderservice: LeaderService) { }
 
   ngOnInit() {
-    this.dish = this.dishservice.getFeaturedDish();
-    this.promotion = this.promotionservice.getFeaturedPromotion();
-    this.leader = this.leaderservice.getFeaturedLeader();
+    //this call for a promise is a bit confusing at first 
+    //the first part of it is within our constructor
+    //weve passed our service objects within it to get values
+    //ex: dishservice is retrieving the promise 
+    //if the promise is successful we pass that value it returned
+    //into the function defined in the then scenario
+    //we then assisn that returned object into this.dish
+    this.dishservice.getFeaturedDish()
+    .then (returneddish => this.dish = returneddish);
+    this.promotionservice.getFeaturedPromotion()
+    .then (promotion => this.promotion = promotion);
+    this.leaderservice.getFeaturedLeader()
+    .then (returnedleader => this.leader = returnedleader);
   }
 
 }

@@ -7,17 +7,17 @@ import { LEADERS } from '../shared/leaders';
 export class LeaderService {
 
   constructor() { }
-  getLeaders(): Leader[] {
-  	return LEADERS;
+  getLeaders(): Promise<Leader[]> {
+  	return Promise.resolve(LEADERS);
   }
-  getLeader(id: number): Leader {
+  getLeader(id: number): Promise<Leader> {
     //filter() returns an array
     //but since we are taking the first index filter()[0]
     //=> is a shorthand way of writing function
     //return a dish type that satisfies
-  	return LEADERS.filter((leader) => (leader.id === id))[0]; 
+  	return Promise.resolve(LEADERS.filter((leader) => (leader.id === id))[0]); 
   }
-  getFeaturedLeader(): Leader {
-    return LEADERS.filter((leader) => leader.featured)[0];
+  getFeaturedLeader(): Promise<Leader> {
+    return Promise.resolve(LEADERS.filter((leader) => leader.featured)[0]);
   }
 }

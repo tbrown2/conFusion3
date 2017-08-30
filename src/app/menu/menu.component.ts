@@ -28,7 +28,9 @@ export class MenuComponent implements OnInit {
 
 //lifecycle method, will be executed by the angular framework when the component is executed
 	ngOnInit() {
-    this.dishes = this.dishService.getDishes();
+    //must implement then and catch
+    this.dishService.getDishes()
+    .then(dishes => this.dishes = dishes);
 
 	}
 
