@@ -27,6 +27,7 @@
 	</md-card>
   </div>
   <div fxFlex="40">
+  		<div *ngIf="selectedDish.comments">
     		<h2>Comments</h2>
 			<md-list *ngFor="let comment of selectedDish.comments">
 				<md-list-item>
@@ -35,7 +36,11 @@
 					<p md-line>-- {{comment.author}} {{comment.date | date:'medium'}}</p>
 				</md-list-item>
 			</md-list>
+		</div>
+		<div [hidden]="selectedDish.comments">
+    		<md-spinner></md-spinner>
+    		<h4>Loading . . . Please Wait</h4>
+  		</div>
   </div>
-
 
 </div>

@@ -12,16 +12,25 @@ export class DishService {
   //if promise is resolved then the dish array will return
   //must configure the code so that promise is taken into account
   getDishes(): Promise<Dish[]> {
-  	return Promise.resolve(DISHES);
+  	return new Promise(resolve=> {
+      // Simulate server latency with 2 second delay
+        setTimeout(() => resolve(DISHES), 2000);
+    });;
   }
   getDish(id: number): Promise<Dish> {
     //filter() returns an array
     //but since we are taking the first index filter()[0]
     //=> is a shorthand way of writing function
     //return a dish type that satisfies
-  	return Promise.resolve(DISHES.filter((dish) => (dish.id === id))[0]); 
+    return new Promise(resolve=> {
+      // Simulate server latency with 2 second delay
+        setTimeout(() => resolve(DISHES.filter((dish) => (dish.id === id))[0]), 2000);
+    });
   }
   getFeaturedDish(): Promise<Dish> {
-    return Promise.resolve(DISHES.filter((dish) => dish.featured)[0]);
+    return  new Promise(resolve=> {
+      // Simulate server latency with 2 second delay
+        setTimeout(() => resolve(DISHES.filter((dish) => dish.featured)[0]), 2000);
+    });
   }
 }
