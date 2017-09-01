@@ -31,11 +31,11 @@ export class HomeComponent implements OnInit {
     //into the function defined in the then scenario
     //we then assisn that returned object into this.dish
     this.dishservice.getFeaturedDish()
-    .then (returneddish => this.dish = returneddish);
+    .subscribe (returneddish => this.dish = returneddish);
     this.promotionservice.getFeaturedPromotion()
-    .then (promotion => this.promotion = promotion);
+    .subscribe (promotion => this.promotion = promotion);
     this.leaderservice.getFeaturedLeader()
-    .then (returnedleader => this.leader = returnedleader);
+    .subscribe (returnedleader => this.leader = returnedleader);
   }
 
 }

@@ -27,7 +27,7 @@ export class DishdetailComponent implements OnInit {
   	//must fetch the activated route using the plus value
   	let id = +this.route.snapshot.params['id'];
   	this.dishservice.getDish(id)
-    .then (selecteddish => this.selectedDish = selecteddish);
+    .subscribe (selecteddish => this.selectedDish = selecteddish);
 
   }
 
