@@ -6,7 +6,7 @@
     fxLayoutGap="10px" 
     fxLayoutGap.xs="0">
 
-  <div fxFlex="40">
+  <div fxFlex="40" *ngIf="selectedDish">
     <md-card>
 		<md-card-header>
 			<md-card-title>
@@ -20,14 +20,17 @@
 			<p>{{selectedDish.description}}</p>
 		</md-card-content>
 		<md-card-actions>
+			<button md-button [routerLink]="['/dishdetail', prev]"><span class="fa fa-chevron-left fa-lg"></span></button>
 			<button md-button (click)="goBack()">BACK</button>
 			<button md-button>LIKE</button>
 			<button md-button>SHARE</button>
+			<span class="flex-spacer"></span>
+			<button md-button [routerLink]="['/dishdetail', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
 		</md-card-actions>
 	</md-card>
   </div>
-  <div fxFlex="40">
-  		<div *ngIf="selectedDish.comments">
+  <div fxFlex="40" *ngIf="selectedDish">
+  		<div>
     		<h2>Comments</h2>
 			<md-list *ngFor="let comment of selectedDish.comments">
 				<md-list-item>
@@ -37,10 +40,10 @@
 				</md-list-item>
 			</md-list>
 		</div>
-		<div [hidden]="selectedDish.comments">
+  </div>
+  <div [hidden]="selectedDish">
     		<md-spinner></md-spinner>
     		<h4>Loading . . . Please Wait</h4>
   		</div>
-  </div>
 
 </div>
