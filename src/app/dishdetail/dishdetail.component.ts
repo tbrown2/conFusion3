@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 
 import { Dish } from '../shared/dish';
+import { Comment } from '../shared/comment';
 import { DISHES } from '../shared/dishes';
 import { DishService } from '../services/dish.service';
 
@@ -22,13 +25,83 @@ export class DishdetailComponent implements OnInit {
   prev: number;
   next: number;
 
+  commentForm: FormGroup;
+  comment: Comment;
+
+  errMess: string;
+
+    //js object that will help detect errors
+  formErrors = {
+    'comment': '',
+    'author': '', 
+  };
+   validationMessages = {
+     'comment': {
+       'required': 'Comment is required.',
+       'minlength': 'First Name must be at least 2 characters long.',
+     },
+     'author' : {
+       'required': 'Author Name is required.',
+       'minlength': 'First Name must be at least 2 characters long.',
+     }
+   };
+
+
+
   constructor(private dishservice: DishService, 
   	private route:ActivatedRoute, 
-  	private location: Location) { 
+  	private location: Location,
+    private fb: FormBuilder, 
+    @Inject('BaseURL') private BaseURL) { 
+    }
+
+  createForm() {
+    this.commentForm = this.fb.group({
+      rating: [5],
+      comment: ['', [Validators.required, Validators.minLength(2)]],
+      author: ['', [Validators.required, Validators.minLength(2)]],
+      date: ['']
+    });
+    this.commentForm.valueChanges
+       .subscribe(data => this.onValueChanged(data));
+
+    this.onValueChanged();
 
   }
 
+    onValueChanged(data?: any) {
+    if (!this.commentForm) {return;}
+    const form = this.commentForm;
+
+    for (const field in this.commentForm) {
+      this.formErrors[field] = '';
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
+  }
+
+  onSubmit(){
+    var d = new Date();
+    this.comment = this.commentForm.value;
+    this.comment.date = d.toISOString();
+    this.commentForm.reset({
+      rating: "5",
+      comment: '',
+      author: '',
+      date: ''
+    });
+    this.selectedDish.comments.push(this.comment);
+  }
+
+
   ngOnInit() {
+    this.createForm();
+
     this.dishservice.getDishIds()
       .subscribe(dishIds => this.dishIds = dishIds);
   	//uses the activated route service 
@@ -39,7 +112,9 @@ export class DishdetailComponent implements OnInit {
     //switchMap will automatically update every time the id changes
   	this.route.params
       .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
-      .subscribe(selectedDish => {this.selectedDish = selectedDish; this.setPrevNext(selectedDish.id);});
+      .subscribe(
+        selectedDish => {this.selectedDish = selectedDish; this.setPrevNext(selectedDish.id);},
+        errMess => this.errMess = <any>errMess)
 
   }
 

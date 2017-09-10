@@ -14,7 +14,7 @@
 			</md-card-title>
 		</md-card-header>
 		
-		<img md-card-image src="{{selectedDish.image}}" alt="{{selectedDish.name}}">
+		<img md-card-image src="{{BaseURL + selectedDish.image}}" alt="{{selectedDish.name}}">
 
 		<md-card-content>
 			<p>{{selectedDish.description}}</p>
@@ -39,11 +39,46 @@
 					<p md-line>-- {{comment.author}} {{comment.date | date:'medium'}}</p>
 				</md-list-item>
 			</md-list>
+			<md-list>
+				<md-list-item>
+				<div [hidden]="commentForm.invalid">
+					<p md-line>{{commentForm.get('comment').value}}</p>
+					<p md-line>{{commentForm.get('rating').value}} Stars</p>
+					<p md-line>-- {{commentForm.get('author').value}}</p>
+				</div>
+				</md-list-item>
+			</md-list>
 		</div>
+		<div>
+			<form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+			<p>
+				<md-input-container class="md-block same-width" dividerColor="{{(formErrors.author ? 'warn' }: 'primary'}">
+					<input mdInput formControlName="author" placeholder="Name" type="text" required>
+		            <md-hint>
+		              <span [hidden]="!(formErrors.author)">
+		                  {{formErrors.author}}</span>
+		            </md-hint>
+				</md-input-container>
+			</p>
+			<p>
+				<md-slider formControlName="rating" min="1" max="5" step="1"></md-slider>
+			</p>
+			<p>
+				<md-input-container class="full-width same-width">
+              	<textarea mdInput formControlName="comment" placeholder="Your Comment" rows=4></textarea>
+            	</md-input-container>			
+            </p>
+            <button type="submit" md-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>
+			</form>
+  		</div>
   </div>
-  <div [hidden]="selectedDish">
+
+  <div [hidden]="selectedDish || errMess">
     		<md-spinner></md-spinner>
     		<h4>Loading . . . Please Wait</h4>
-  		</div>
-
+  </div>
+  <div *ngIf="errMess">
+  	<h2>Error</h2>
+  	<h4>{{errMess}}</h4>
+  </div>
 </div>

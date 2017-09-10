@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
@@ -17,10 +17,13 @@ export class HomeComponent implements OnInit {
   dish: Dish;
   promotion: Promotion;
   leader: Leader;
+  dishErrMess: string;
+
 
   constructor(private dishservice: DishService,
     private promotionservice: PromotionService, 
-    private leaderservice: LeaderService) { }
+    private leaderservice: LeaderService,
+    @Inject('BaseURL') private BaseURL) { }
 
   ngOnInit() {
     //this call for a promise is a bit confusing at first 
@@ -31,7 +34,10 @@ export class HomeComponent implements OnInit {
     //into the function defined in the then scenario
     //we then assisn that returned object into this.dish
     this.dishservice.getFeaturedDish()
-    .subscribe (returneddish => this.dish = returneddish);
+    .subscribe (
+      returneddish => this.dish = returneddish,
+      errMess => this.dishErrMess = <any>errMess
+      );
     this.promotionservice.getFeaturedPromotion()
     .subscribe (promotion => this.promotion = promotion);
     this.leaderservice.getFeaturedLeader()

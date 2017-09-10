@@ -11,7 +11,7 @@
 		<md-grid-list cols="2" rowHeight="200px">
 			<!--ng for iterates over an array of items, like a for{} loop-->
 			<md-grid-tile *ngFor="let dish of dishes" [routerLink]="['/dishdetail',dish.id]">
-				<img height="200px" src={{dish.image}} alt={{dish.name}}>
+				<img height="200px" src="{{BaseURL + dish.image}}" alt={{dish.name}}>
 				<md-grid-tile-footer>
 					<!--whatever the dish name is will be filterd as uppercase letters (angular pipe)-->
 					<h1 md-list>{{dish.name  | uppercase}}</h1>
@@ -19,7 +19,11 @@
 			</md-grid-tile>
 		</md-grid-list>
 	</div>
-	<div [hidden]="dishes">
+	<div [hidden]="dishes || errMess">
     	<md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+  	</div>
+  	<div *ngIf="errMess">
+  		<h2>Error</h2>
+  		<h4>{{errMess}}</h4>
   	</div>
 </div>

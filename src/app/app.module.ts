@@ -26,6 +26,9 @@ import { PromotionService } from './services/promotion.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { LoginComponent } from './login/login.component';
 
+import { baseURL } from './shared/baseurl';
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
+
 //decorator - a function / wrapper that modifies javascript classes
 //specify some details about your app module
 @NgModule({
@@ -56,7 +59,9 @@ import { LoginComponent } from './login/login.component';
   providers: [
     DishService, 
     PromotionService,
-    LeaderService
+    LeaderService,
+    ProcessHTTPMsgService,
+    {provide: "BaseURL", useValue: baseURL}
   ],
   //will be triggered by another part of our application - a click for example
   //opened through code 
