@@ -42,7 +42,7 @@ export class DishService {
 
   getDish(id: number): Observable<Dish> {
     //accessing dishes/id
-    return this.restangular.one('dishes',id);
+    return this.restangular.one('dishes',id).get();
    }
   getFeaturedDish(): Observable<Dish> {
     //return a javascript array 

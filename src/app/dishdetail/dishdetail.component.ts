@@ -20,6 +20,7 @@ import 'rxjs/add/operator/switchMap';
 })
 export class DishdetailComponent implements OnInit {
   selectedDish: Dish;
+  dishcopy = null;
   //store all the ids of all the dishes in menu
   dishIds: number[];
   prev: number;
@@ -89,13 +90,22 @@ export class DishdetailComponent implements OnInit {
     var d = new Date();
     this.comment = this.commentForm.value;
     this.comment.date = d.toISOString();
+    //we push the new comment into the dish copy
+    //dish copy is an object value not of our defined dish class 
+    //that means when we make the data persist in our server itll work 
+    //since Dish class is locally defined and REST api doesnt know
+    this.dishcopy.comments.push(this.comment);
+    //when the server responds, we will update the dish copy
+    //dish object has been updated on the server 
+    //then returns the object and now it will be reflected back
+    this.dishcopy.save()
+      .subscribe(dish => this.selectedDish = dish);
     this.commentForm.reset({
       rating: "5",
       comment: '',
       author: '',
       date: ''
     });
-    this.selectedDish.comments.push(this.comment);
   }
 
 
@@ -113,7 +123,7 @@ export class DishdetailComponent implements OnInit {
   	this.route.params
       .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
       .subscribe(
-        selectedDish => {this.selectedDish = selectedDish; this.setPrevNext(selectedDish.id);},
+        selectedDish => {this.selectedDish = selectedDish; this.dishcopy = selectedDish; this.setPrevNext(selectedDish.id);},
         errMess => this.errMess = <any>errMess)
 
   }
