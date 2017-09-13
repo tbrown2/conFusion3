@@ -15,7 +15,7 @@ import { DishService } from '../services/dish.service';
 export class MenuComponent implements OnInit {
 
 	dishes: Dish[];
-
+	errMess:string;
 
   
 //set up BaseUrl as a provider, so now it can be injected into the component
@@ -25,8 +25,13 @@ export class MenuComponent implements OnInit {
 //lifecycle method, will be executed by the angular framework when the component is executed
 	ngOnInit() {
     //must implement then and catch
+    //when the service returns a value the first will be executed 
+    //if an error is returned then errmess will become the string 
     this.dishService.getDishes()
-    .subscribe(dishes => this.dishes = dishes);
+    .subscribe(
+    	dishes => this.dishes = dishes,
+    	errmess=> this.errMess = <any>errmess
+    	);
 
 	}
 

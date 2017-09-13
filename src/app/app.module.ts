@@ -28,6 +28,8 @@ import { LoginComponent } from './login/login.component';
 
 import { baseURL } from './shared/baseurl';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
+import { RestangularModule, Restangular } from 'ngx-restangular';
+import {RestangularConfigFactory} from './shared/restConfig';
 
 //decorator - a function / wrapper that modifies javascript classes
 //specify some details about your app module
@@ -53,7 +55,8 @@ import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RestangularModule.forRoot(RestangularConfigFactory)
   ],
   //all the services that this app will make use of
   providers: [
