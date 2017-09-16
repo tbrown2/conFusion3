@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { visibility , flyInOut, expand} from '../animations/app.animation';
 
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -16,8 +16,21 @@ import 'rxjs/add/operator/switchMap';
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
-  styleUrls: ['./dishdetail.component.scss']
-})
+  styleUrls: ['./dishdetail.component.scss'],
+  //component will start animating when i route into and out of 
+  //this component
+  host: {
+   '[@flyInOut]': 'true',
+   'style': 'display: block;'
+  },
+  animations: [
+    flyInOut(),
+    visibility(),
+    expand()
+  ]
+})  
+
+
 export class DishdetailComponent implements OnInit {
   selectedDish: Dish;
   dishcopy = null;
@@ -30,6 +43,8 @@ export class DishdetailComponent implements OnInit {
   comment: Comment;
 
   errMess: string;
+
+  visibility = 'shown';
 
     //js object that will help detect errors
   formErrors = {
@@ -121,10 +136,23 @@ export class DishdetailComponent implements OnInit {
     //plus converts the string into an integer value
     //switchMap will automatically update every time the id changes
   	this.route.params
-      .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
+      .switchMap((params: Params) => {
+        this.visibility = 'hidden';
+        return this.dishservice.getDish(+params['id']);
+      })
+      //when the new dish becomes available 
       .subscribe(
-        selectedDish => {this.selectedDish = selectedDish; this.dishcopy = selectedDish; this.setPrevNext(selectedDish.id);},
-        errMess => this.errMess = <any>errMess)
+        selectedDish => {
+         this.selectedDish = selectedDish; 
+         this.dishcopy = selectedDish;
+         this.setPrevNext(selectedDish.id); 
+         this.visibility='shown';
+       },
+        errMess => {
+          this.selectedDish=null;
+          this.errMess = <any>errMess;
+        }
+      )
 
   }
 

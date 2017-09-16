@@ -7,10 +7,21 @@ import { DishdetailComponent } from '../dishdetail/dishdetail.component';
 
 import { DishService } from '../services/dish.service';
 
+import { flyInOut, expand } from '../animations/app.animation';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  styleUrls: ['./menu.component.scss'],
+  //menu  //component will start animating when i route into and out of 
+  //this component
+  host: {
+   '[@flyInOut]': 'true',
+   'style': 'display: block;'
+  },
+  animations: [
+    flyInOut(),
+    expand()
+  ]
 })
 export class MenuComponent implements OnInit {
 

@@ -30,6 +30,7 @@ import { baseURL } from './shared/baseurl';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import {RestangularConfigFactory} from './shared/restConfig';
+import { HighlightDirective } from './directives/highlight.directive';
 
 //decorator - a function / wrapper that modifies javascript classes
 //specify some details about your app module
@@ -44,7 +45,8 @@ import {RestangularConfigFactory} from './shared/restConfig';
     HomeComponent,
     AboutComponent,
     ContactComponent,
-    LoginComponent
+    LoginComponent,
+    HighlightDirective
   ],
   //always import modules you install that you want to use
   imports: [

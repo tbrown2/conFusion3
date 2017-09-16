@@ -7,10 +7,10 @@
 			<hr>
 		</div>
 	</div>
-	<div fxFlex *ngIf="dishes">
+	<div fxFlex *ngIf="dishes" [@expand]>
 		<md-grid-list cols="2" rowHeight="200px">
 			<!--ng for iterates over an array of items, like a for{} loop-->
-			<md-grid-tile *ngFor="let dish of dishes" [routerLink]="['/dishdetail',dish.id]">
+			<md-grid-tile *ngFor="let dish of dishes" [routerLink]="['/dishdetail',dish.id]" appHighlight>
 				<img height="200px" src="{{BaseURL + dish.image}}" alt={{dish.name}}>
 				<md-grid-tile-footer>
 					<!--whatever the dish name is will be filterd as uppercase letters (angular pipe)-->
