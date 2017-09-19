@@ -14,13 +14,10 @@ import { ProcessHTTPMsgService } from './process-httpmsg.service'
 
 import { RestangularModule, Restangular } from 'ngx-restangular';
 
-
 //when you use rxjs, we only need to import parts we need
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
-
-
 
 //we substituted observables for promises (check earlier versions)
 //we did this because anything a promise can do, an observable can do as well
@@ -50,7 +47,6 @@ export class DishService {
     //accessing the first element  
     return  this.restangular.all('dishes').getList({featured: true})
       .map(dishes => dishes[0]);
-
   }
 
   getDishIds(): Observable<number[]> {
@@ -59,6 +55,5 @@ export class DishService {
     return this.getDishes()
       .map(dishes => { return dishes.map( dish => dish.id)})
       .catch(error => {return error});
-
   }
 }
