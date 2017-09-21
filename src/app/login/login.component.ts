@@ -9,7 +9,7 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 export class LoginComponent implements OnInit {
 
   //bind in, allows us to retreive information and use it
-  user = {remember:false};
+  user = {username: '', password: '', remember:false};
 
   //return the dialogRef 
   //way of closing the dialog within the javascript code
