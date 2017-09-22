@@ -3,10 +3,6 @@ import { Leader } from '../shared/leader';
 
 import { Observable } from 'rxjs/Observable';
 
-//when you use rxjs, we only need to import parts we need
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/observable/of';
-
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import { ProcessHTTPMsgService } from './process-httpmsg.service'
 

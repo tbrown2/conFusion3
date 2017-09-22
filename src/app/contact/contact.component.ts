@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { flyInOut } from '../animations/app.animation';
-
+import { FeedbackService } from '../services/feedback.service';
 
 @Component({
   selector: 'app-contact',
@@ -23,6 +23,9 @@ export class ContactComponent implements OnInit {
   //form model 	
   feedbackForm: FormGroup;
   feedback: Feedback;
+  feedbackCopy: Feedback;
+  errMess: string;
+  submission = false;
   contactType = ContactType;
   //js object that will help detect errors
   formErrors = {
@@ -54,7 +57,9 @@ export class ContactComponent implements OnInit {
      } 
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, 
+              private feedbackservice: FeedbackService) 
+  {
   	//method in which we will create the actual form 
   	this.createForm();
   }
@@ -100,8 +105,34 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
+    //we are currently submitting the form
+    this.submission = true;
+    //copy the forms values into our feedback object
     this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
+    //pass the feedback object to post to our server
+    //making use of our feeback service
+    //returns an observable
+    this.feedbackservice.submitFeedback(this.feedback)
+      .subscribe(
+          (feedback) => {
+             //want to copy the observables values to show on the screen
+             this.feedbackCopy = feedback;
+             //when the value is returned, we know that it was successful
+             //so we know submission is complete
+             this.submission = false;
+             //timeout to show the values of feedbackCopy
+             setTimeout(()=>{
+               this.feedbackCopy = null;}
+               ,5000)
+          },
+          //catch just in case something with our server goes awry
+          errmess => {
+            this.feedbackCopy = null;
+            this.errMess = <any>errmess;
+          }
+        );
+    
+    //resetting our form
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',

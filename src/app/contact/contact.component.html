@@ -31,7 +31,7 @@
                 <h4>Map of our Location</h4>
           	</div>
 	</div>
-	<div fxFlec fxFlexOffset="20px" class="form-size">
+	<div fxFlec fxFlexOffset="20px" class="form-size" [hidden]="submission || feedbackCopy">
 		<h3>Send us your Feedback: </h3>
 		    <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
           <p>
@@ -89,4 +89,21 @@
           <button type="submit" md-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid">Submit</button>
         </form>
        </div>
+       <div [hidden]="!submission">
+         <h2>Submitting Form</h2>
+           <md-spinner></md-spinner>
+           <h4>Loading . . . Please Wait</h4>
+       </div>
+       <md-list *ngIf="feedbackCopy">
+        <h2>Submitting Form</h2>
+          <md-list-item [hidden]="submission">
+            <p md-line>First Name: {{feedbackCopy.firstname}}</p>
+            <p md-line>Last Name: {{feedbackCopy.lastname}}</p>
+            <p md-line>Telephone: {{feedbackCopy.telnum}}</p>
+            <p md-line>Email: {{feedbackCopy.email}}</p>
+            <p md-line>May we Contact?: {{feedbackCopy.agree}}</p>
+            <p md-line>Contact Type: {{feedbackCopy.contacttype}}</p>
+            <p md-line>Message: {{feedbackCopy.message}}</p>
+          </md-list-item>
+       </md-list>
 </div>
